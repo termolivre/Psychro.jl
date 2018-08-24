@@ -502,7 +502,9 @@ function calcdewpoint(Tk, P, xv, EPS=1e-9, MAXITER=100)
     Dnew = D
     i = 0
     err = 0.0
+    niter = 1
     for i = 1:MAXITER
+        niter = i
         f = efactor(D, P)
         Dnew = Tws(xv*P/f)
         err = abs(D-Dnew)
@@ -511,7 +513,7 @@ function calcdewpoint(Tk, P, xv, EPS=1e-9, MAXITER=100)
         end
         D = Dnew
     end
-    throw(ConvergenceError("Dew point calculation failed to converge!", D, i, err))
+    throw(ConvergenceError("Dew point calculation failed to converge!", D, niter, err))
     return Dnew
 end
 

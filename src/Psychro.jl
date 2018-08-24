@@ -124,7 +124,6 @@ julia> spechum(MoistAir, 20.0u"°C", WetBulb, 17.0u"°C", 93u"kPa")
 ```
 
 """
-
 module Psychro
 
 "Molecular weight of air in kg/mol"

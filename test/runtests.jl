@@ -1,5 +1,5 @@
-using Base.Test
-using Psychro
+using Test
+using .Psychro
 
 include("test_utilities.jl")
 include("test_hyland83a.jl")
