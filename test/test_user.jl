@@ -115,8 +115,8 @@ end
 
 # Testing Table 20 from reference [5].
 
-Tk = vcat(5*ones(4), 25*ones(4), 50*ones(4)) + 273.15
-Tbu = [5.0, 2.0, -1.0, -3.0, 25.0, 20.0, 15.0, 10.0, 25.0, 22.0, 20.0, 19.0] + 273.15
+Tk = vcat(5*ones(4), 25*ones(4), 50*ones(4)) .+ 273.15
+Tbu = [5.0, 2.0, -1.0, -3.0, 25.0, 20.0, 15.0, 10.0, 25.0, 22.0, 20.0, 19.0] .+ 273.15
 Td = [5.0, -2.16, -11.92, -37.23, 25.0, 17.60, 7.73, -10.42, 13.47, 4.16, -5.48, -14.12]
 w = [5.42, 3.16, 1.35, 0.11, 20.17, 12.66, 6.56, 1.55, 9.67, 5.11, 2.39, 1.11]*1e-3
 rel = [100.0, 58.6, 25.1, 2.0, 100, 63.5, 33.2, 7.9, 12.5, 6.7, 3.1, 1.5]
@@ -125,7 +125,7 @@ h = [18.64, 12.97, 8.42, 5.30, 76.50, 57.38, 41.85, 29.09, 75.40, 63.58, 56.51, 
 s = [0.0697, 0.0490, 0.0319, 0.0195, 0.2698, 0.2048, 0.1506, 0.1039, 0.2610, 0.2192, 0.1934, 0.1808]
 
 P = 101325.0
-Td1 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P)-273.15
+Td1 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P) .- 273.15
 w1 =  Psychro.humrat.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P)
 rel1 =  Psychro.relhum.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P) * 100
 vol1 =  Psychro.volume.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P)
@@ -139,14 +139,14 @@ s1 =  Psychro.entropy.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P)/1000
 @test maximum(abs, h1-h) ≈ 0.0 atol=0.01
 @test maximum(abs, s1-s) ≈ 0.0 atol=0.0001
 
-Tbu1 = Psychro.wetbulb.(Psychro.MoistAir, Tk, Psychro.DewPoint, Td1+273.15, P)
+Tbu1 = Psychro.wetbulb.(Psychro.MoistAir, Tk, Psychro.DewPoint, Td1 .+ 273.15, P)
 @test maximum(abs, Tbu1-Tbu) ≈ 0.0 atol=1e-4
 Tbu2 = Psychro.wetbulb.(Psychro.MoistAir, Tk, Psychro.RelHum, rel1/100, P)
 @test maximum(abs, Tbu2-Tbu) ≈ 0.0 atol=1e-4
 Tbu3 = Psychro.wetbulb.(Psychro.MoistAir, Tk, Psychro.HumRat, w1/100, P)
 @test maximum(abs, Tbu2-Tbu) ≈ 0.0 atol=1e-4
 
-Td2 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.HumRat, w1, P)-273.15
+Td2 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.HumRat, w1, P) .- 273.15
 @test maximum(abs, Td2-Td1) ≈ 0.0 atol=1e-4
-Td3 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.RelHum, rel1/100, P)-273.15
+Td3 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.RelHum, rel1/100, P) .- 273.15
 @test maximum(abs, Td3-Td1) ≈ 0.0 atol=1e-4
