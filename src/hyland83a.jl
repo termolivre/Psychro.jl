@@ -349,7 +349,6 @@ function efactor2(Tk, P, EPS=1e-8, MAXITER=200)
     if fnovo < 1.0
         fnovo = 1.0
     end
-
     throw(ConvergenceError("Enhancement factor calculation did not converge!", fnovo, MAXITER, err))
 end
 
@@ -379,15 +378,12 @@ function efactor(Tk, P, relax=1.0, EPS=1e-8, MAXITER=200)
     fun = f -> (log(f) - lnf(f, P, p, k, κ, vc, RT, baa, baw, bww, caaa, caaw, caww, cwww))
 
     ef = 1e-8
-    
     f = 1.0
-    err = 0.0
-    df = 0.0
     for i = 1:MAXITER
         g = fun(f)
         dg = (fun(f+ef) - g) / ef
         df = -g/dg
-                
+        
         if abs(df) < EPS
             f = f + df
             if f < 1
@@ -398,7 +394,6 @@ function efactor(Tk, P, relax=1.0, EPS=1e-8, MAXITER=200)
         
         f = f + relax*df
     end
-
     throw(ConvergenceError("Enhancement factor calculation did not converge!", f, MAXITER, abs(df)))
 end
 

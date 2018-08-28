@@ -500,7 +500,6 @@ function calcdewpoint(Tk, P, xv, EPS=1e-9, MAXITER=100)
     # Use Ideal Gas to 
     D = Tws(xv*P)
     Dnew = D
-    i = 0
     err = 0.0
     niter = 1
     for i = 1:MAXITER

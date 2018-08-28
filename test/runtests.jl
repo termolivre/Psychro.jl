@@ -1,5 +1,5 @@
 using Test
-using .Psychro
+using Psychro
 
 include("test_utilities.jl")
 include("test_hyland83a.jl")

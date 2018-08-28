@@ -86,7 +86,6 @@ function calcz(b0, c0, EPS=1e-8, MAXITER=200, relax=1.0)
         end
         z = z + relax*dz
     end
-    
     throw(ConvergenceError("Compressibility factor failed to converge properly!",
                            z, MAXITER, abs(dz)))
         
