@@ -32,11 +32,11 @@ v1 = enthalpym(DryAir, Tf, Pa, u"lb*inch^2/hr^2/kmol")
 v2 = enthalpym(DryAir, Tk.val, Pp.val)
 @test uconvert(u"J/mol", v1).val ≈ v2 rtol=1e-8
 
-v1 = entropy(DryAir, Tf, Pa, u"inch^2/hr^2/°F")
+v1 = entropy(DryAir, Tf, Pa, u"inch^2/hr^2/Ra")
 v2 = entropy(DryAir, Tk.val, Pp.val)
 @test uconvert(u"J/kg/K", v1).val ≈ v2 rtol=1e-8
 
-v1 = entropym(DryAir, Tf, Pa, u"lb*inch^2/hr^2/°F/kmol")
+v1 = entropym(DryAir, Tf, Pa, u"lb*inch^2/hr^2/Ra/kmol")
 v2 = entropym(DryAir, Tk.val, Pp.val)
 @test uconvert(u"J/mol/K", v1).val ≈ v2 rtol=1e-8
 
@@ -67,11 +67,11 @@ v1 = enthalpym(Vapor, Tf, u"lb*inch^2/hr^2/kmol")
 v2 = enthalpym(Vapor, Tk.val)
 @test uconvert(u"J/mol", v1).val ≈ v2 rtol=1e-8
 
-v1 = entropy(Vapor, Tf, u"inch^2/hr^2/°F")
+v1 = entropy(Vapor, Tf, u"inch^2/hr^2/Ra")
 v2 = entropy(Vapor, Tk.val)
 @test uconvert(u"J/kg/K", v1).val ≈ v2 rtol=1e-8
 
-v1 = entropym(Vapor, Tf, u"lb*inch^2/hr^2/°F/kmol")
+v1 = entropym(Vapor, Tf, u"lb*inch^2/hr^2/Ra/kmol")
 v2 = entropym(Vapor, Tk.val)
 @test uconvert(u"J/mol/K", v1).val ≈ v2 rtol=1e-8
 
@@ -167,11 +167,11 @@ x5 = enthalpym(MoistAir, Tf, RelHum, r, Pl, u"inch^2*lb/hr^2/kmol")
 
 
 x  = entropy(MoistAir, Tk.val, DewPoint, Dk.val, Pp.val)
-x1 = entropy(MoistAir, Tf, DewPoint, Df, Pl, u"inch^2/hr^2/°F")
-x2 = entropy(MoistAir, Tf, WetBulb, Bf, Pl, u"inch^2/hr^2/°F")
-x3 = entropy(MoistAir, Tf, HumRat, w, Pl, u"inch^2/hr^2/°F")
-x4 = entropy(MoistAir, Tf, SpecHum, q, Pl, u"inch^2/hr^2/°F")
-x5 = entropy(MoistAir, Tf, RelHum, r, Pl, u"inch^2/hr^2/°F")
+x1 = entropy(MoistAir, Tf, DewPoint, Df, Pl, u"inch^2/hr^2/Ra")
+x2 = entropy(MoistAir, Tf, WetBulb, Bf, Pl, u"inch^2/hr^2/Ra")
+x3 = entropy(MoistAir, Tf, HumRat, w, Pl, u"inch^2/hr^2/Ra")
+x4 = entropy(MoistAir, Tf, SpecHum, q, Pl, u"inch^2/hr^2/Ra")
+x5 = entropy(MoistAir, Tf, RelHum, r, Pl, u"inch^2/hr^2/Ra")
 @test uconvert(u"J/kg/K", x1).val ≈ x rtol=1e-8
 @test uconvert(u"J/kg/K", x2).val ≈ x rtol=1e-8
 @test uconvert(u"J/kg/K", x3).val ≈ x rtol=1e-8
@@ -179,12 +179,13 @@ x5 = entropy(MoistAir, Tf, RelHum, r, Pl, u"inch^2/hr^2/°F")
 @test uconvert(u"J/kg/K", x5).val ≈ x rtol=1e-8
 
 
+
 x  = entropym(MoistAir, Tk.val, DewPoint, Dk.val, Pp.val)
-x1 = entropym(MoistAir, Tf, DewPoint, Df, Pl, u"inch^2/hr^2/°F*lb/kmol")
-x2 = entropym(MoistAir, Tf, WetBulb, Bf, Pl, u"inch^2/hr^2/°F*lb/kmol")
-x3 = entropym(MoistAir, Tf, HumRat, w, Pl, u"inch^2/hr^2/°F*lb/kmol")
-x4 = entropym(MoistAir, Tf, SpecHum, q, Pl, u"inch^2/hr^2/°F*lb/kmol")
-x5 = entropym(MoistAir, Tf, RelHum, r, Pl, u"inch^2/hr^2/°F*lb/kmol")
+x1 = entropym(MoistAir, Tf, DewPoint, Df, Pl, u"inch^2/hr^2/Ra*lb/kmol")
+x2 = entropym(MoistAir, Tf, WetBulb, Bf, Pl, u"inch^2/hr^2/Ra*lb/kmol")
+x3 = entropym(MoistAir, Tf, HumRat, w, Pl, u"inch^2/hr^2/Ra*lb/kmol")
+x4 = entropym(MoistAir, Tf, SpecHum, q, Pl, u"inch^2/hr^2/Ra*lb/kmol")
+x5 = entropym(MoistAir, Tf, RelHum, r, Pl, u"inch^2/hr^2/Ra*lb/kmol")
 @test uconvert(u"J/mol/K", x1).val ≈ x rtol=1e-8
 @test uconvert(u"J/mol/K", x2).val ≈ x rtol=1e-8
 @test uconvert(u"J/mol/K", x3).val ≈ x rtol=1e-8
@@ -203,8 +204,8 @@ x5 = compressfactor(MoistAir, Tf, RelHum, r, Pl)
 @test x4 ≈ x rtol=1e-8
 @test x5 ≈ x rtol=1e-8
 
-#xv = Psychro.molarfrac(Tk.val, DewPoint, Dk.val, Pp.val)
-#xv1 = Psychro.molarfrac(Tk, DewPoint, Df, Pl)
+xv = Psychro.molarfrac(Tk.val, DewPoint, Dk.val, Pp.val)
+xv1 = Psychro.molarfrac(Tk, DewPoint, Df, Pl)
 
 
 x  = dewpoint(MoistAir, Tk.val, DewPoint, Dk.val, Pp.val)
