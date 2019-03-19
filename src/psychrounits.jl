@@ -4,17 +4,17 @@ Implement the functions using the Unitful package to check units
 
 using Unitful
 
-const uT = u"K"
-const uP = u"Pa"
-const uV = u"m^3/kg"
-const umV = u"m^3/mol"
-const uD = u"kg/m^3"
-const umD = u"mol/m^3"
-const perc = u"cm/m"
-const uH = u"J/kg"
-const umH = u"J/mol"
-const uS = u"J/kg/K"
-const umS = u"J/mol/K"
+const uT = Unitful.K
+const uP = Unitful.Pa
+const uV = Unitful.m^3/Unitful.kg
+const umV = Unitful.m^3/Unitful.mol
+const uD = Unitful.kg/Unitful.m^3
+const umD = Unitful.mol/Unitful.m^3
+const perc = Unitful.cm/Unitful.m
+const uH = Unitful.J/Unitful.kg
+const umH = Unitful.J/Unitful.mol
+const uS = Unitful.J/Unitful.kg/Unitful.K
+const umS = Unitful.J/Unitful.mol/Unitful.K
 
 
 dimless{T,U} = Quantity{T, Unitful.Dimensions{()}, U}
@@ -25,7 +25,7 @@ val(u, x::Quantity) = uconvert(u, x).val
 val(u::Unitful.FreeUnits{(), Unitful.Dimensions{()}}, x) = uconvert(u, x)
 
 function volume(::Type{DryAir}, Tk::Quantity, P::Quantity, u=uV)
-    uconvert(u, volume(DryAir, val(uT, Tk), val(u"Pa", P))*uV)
+    uconvert(u, volume(DryAir, val(uT, Tk), val(uP, P))*uV)
 end
 
 function volumem(::Type{DryAir}, Tk::Quantity, P::Quantity, u=umV)
@@ -105,11 +105,11 @@ function molarfrac(Tk::Quantity, ::Type{RelHum}, rel, P::Quantity)
 end
 
 function molarfrac(Tk::Quantity, ::Type{DewPoint}, D::Quantity, P::Quantity)
-    molarfrac(Tk, DewPoint, uconvert(u"K", D).val, val(uP, P))
+    molarfrac(Tk, DewPoint, uconvert(uT, D).val, val(uP, P))
 end
 
 function molarfrac(Tk::Quantity, ::Type{WetBulb}, B::Quantity, P::Quantity)
-    molarfrac(val(uT, Tk), WetBulb, uconvert(u"K", B).val, val(uP, P))
+    molarfrac(val(uT, Tk), WetBulb, uconvert(uT, B).val, val(uP, P))
 end
 
 
@@ -177,7 +177,7 @@ function dewpoint(::Type{MoistAir}, Tk::Quantity,
                   ::Type{T}, y, P::Quantity, u=u"°C") where {T<:PsychroProperty}
 
     xv = molarfrac(Tk, T, y, P)
-    uconvert(u"°C", dewpoint(MoistAir, val(uT, Tk), MolarFrac, xv, val(uP, P))*uT)
+    uconvert(Unitful.°C, dewpoint(MoistAir, val(uT, Tk), MolarFrac, xv, val(uP, P))*uT)
 end
 
 
@@ -190,7 +190,7 @@ end
 
 
 function wetbulb(::Type{MoistAir}, Tk::Quantity,
-                 ::Type{T}, y, P::Quantity, u=u"°C") where {T<:PsychroProperty}
+                 ::Type{T}, y, P::Quantity, u=Unitful.°C) where {T<:PsychroProperty}
 
     xv = molarfrac(Tk, T, y, P)
     uconvert(u"°C", wetbulb(MoistAir, val(uT, Tk), MolarFrac, xv, val(uP, P))*uT)

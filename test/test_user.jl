@@ -125,7 +125,7 @@ h = [18.64, 12.97, 8.42, 5.30, 76.50, 57.38, 41.85, 29.09, 75.40, 63.58, 56.51, 
 s = [0.0697, 0.0490, 0.0319, 0.0195, 0.2698, 0.2048, 0.1506, 0.1039, 0.2610, 0.2192, 0.1934, 0.1808]
 
 P = 101325.0
-Td1 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P).-273.15
+Td1 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P) .- 273.15
 w1 =  Psychro.humrat.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P)
 rel1 =  Psychro.relhum.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P) * 100
 vol1 =  Psychro.volume.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P)
@@ -139,14 +139,15 @@ s1 =  Psychro.entropy.(Psychro.MoistAir, Tk, Psychro.WetBulb, Tbu, P)/1000
 @test maximum(abs, h1-h) ≈ 0.0 atol=0.01
 @test maximum(abs, s1-s) ≈ 0.0 atol=0.0001
 
-Tbu1 = Psychro.wetbulb.(Psychro.MoistAir, Tk, Psychro.DewPoint, Td1.+273.15, P)
+Tbu1 = Psychro.wetbulb.(Psychro.MoistAir, Tk, Psychro.DewPoint, Td1 .+ 273.15, P)
 @test maximum(abs, Tbu1-Tbu) ≈ 0.0 atol=1e-4
 Tbu2 = Psychro.wetbulb.(Psychro.MoistAir, Tk, Psychro.RelHum, rel1/100, P)
 @test maximum(abs, Tbu2-Tbu) ≈ 0.0 atol=1e-4
 Tbu3 = Psychro.wetbulb.(Psychro.MoistAir, Tk, Psychro.HumRat, w1/100, P)
 @test maximum(abs, Tbu2-Tbu) ≈ 0.0 atol=1e-4
 
-Td2 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.HumRat, w1, P).-273.15
+Td2 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.HumRat, w1, P) .- 273.15
 @test maximum(abs, Td2-Td1) ≈ 0.0 atol=1e-4
-Td3 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.RelHum, rel1/100, P).-273.15
+Td3 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.RelHum, rel1/100, P) .- 273.15
+>>>>>>> db72976797888be7cacb148fbbc1452446d95dd6
 @test maximum(abs, Td3-Td1) ≈ 0.0 atol=1e-4
