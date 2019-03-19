@@ -149,5 +149,4 @@ Tbu3 = Psychro.wetbulb.(Psychro.MoistAir, Tk, Psychro.HumRat, w1/100, P)
 Td2 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.HumRat, w1, P) .- 273.15
 @test maximum(abs, Td2-Td1) ≈ 0.0 atol=1e-4
 Td3 = Psychro.dewpoint.(Psychro.MoistAir, Tk, Psychro.RelHum, rel1/100, P) .- 273.15
->>>>>>> db72976797888be7cacb148fbbc1452446d95dd6
 @test maximum(abs, Td3-Td1) ≈ 0.0 atol=1e-4
