@@ -7,9 +7,15 @@ Besides moist air, this package also calculates the properties of dry air and sa
 
 ## instalation
 
-julia-repl```
-julia> ]
-(v1.4) pkg> add https://github.com/pjabardo/Psychro.jl/
+
+```
+(v1.5) pkg> add https://github.com/termolivre/Psychro.jl/
+```
+
+or 
+
+```
+(v1.5) pkg> add Psychro
 ```
 
 ## User interface - Thermodynamic properties of moist air, dry air and saturated water vapor.
