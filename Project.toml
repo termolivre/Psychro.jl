@@ -1,7 +1,7 @@
 name = "Psychro"
 uuid = "9516f557-4a54-5a79-b954-c272e753c77a"
 authors = ["Paulo Jabardo"]
-version = "0.2.0"
+version = "0.3.0"
 
 [deps]
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
