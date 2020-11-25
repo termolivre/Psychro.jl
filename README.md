@@ -1,4 +1,10 @@
 
+[![Build Status](https://travis-ci.org/termolivre/Psychro.jl.svg?branch=master)](https://travis-ci.org/termolivre/Psychro.jl)
+
+[![Coverage Status](https://coveralls.io/repos/termolivre/Psychro.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/termolivre/Psychro.jl?branch=master)
+
+[![codecov.io](http://codecov.io/github/termolivre/Psychro.jl/coverage.svg?branch=master)](http://codecov.io/github/termolivre/Psychro.jl?branch=master)
+
 # Psychro - Thermodynamic properties of moist air
 
 This package provides Julia with functions to compute some thermodynamic properties of moist air. The model uses real gas correlations as recommended by ASHRAE (see reference [5]).
@@ -135,8 +141,3 @@ julia> spechum(MoistAir, 20.0u"°C", WetBulb, 17.0u"°C", 93u"kPa")
 
 
 
-[![Build Status](https://travis-ci.org/pjabardo/Psychro.jl.svg?branch=master)](https://travis-ci.org/pjabardo/Psychro.jl)
-
-[![Coverage Status](https://coveralls.io/repos/pjabardo/Psychro.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/pjabardo/Psychro.jl?branch=master)
-
-[![codecov.io](http://codecov.io/github/pjabardo/Psychro.jl/coverage.svg?branch=master)](http://codecov.io/github/pjabardo/Psychro.jl?branch=master)
