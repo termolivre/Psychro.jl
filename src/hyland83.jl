@@ -13,6 +13,12 @@ Specific volume of saturated ice. Equation 2 from ref. [1].
 
  * `Tk` Temperature in K.
  * Output: specific volume in m^3/kg
+
+# Examples
+```julia-repla
+julia> Psychro.volumeice(260)
+0.0010886255676
+```
 """
 volumeice(Tk) = 0.1070003e-2 + Tk*(-0.249936e-7 + 0.371611e-9*Tk)
 
@@ -25,6 +31,11 @@ Specific enthalpy of saturated ice. Equation 3 of ref. [1].
  * `Tk` Temperature in K
  * Output: J/kg
 
+# Examples
+```julia-repla
+julia> Psychro.enthalpyice(260)
+-360480.97095005447
+```
 """
 function enthalpyice(Tk)
 
@@ -39,6 +50,12 @@ Density of saturated water. Equation 5 from ref. [1].
 
  * `Tk` Temperature in K.
  * Output: density kg/m^3
+
+# Examples
+```julia-repla
+julia> Psychro.densitywater(300)
+996.5096575604439
+```
 """
 densitywater(Tk) = ( -0.2403360201e4 +
                      Tk*(-0.140758895e1 +
@@ -53,6 +70,12 @@ Specific volume of saturated water. Inverse of equation 5 from ref. [1].
 
  * `Tk` Temperature in K.
  * Output: specific volume in m^3/kg
+
+# Examples
+```julia-repla
+julia> Psychro.volumewater(300)
+0.0010035025675998975
+```
 """
 volumewater(Tk) = 1.0 / densitywater(Tk)
 
@@ -71,6 +94,11 @@ Specific enthalpy of saturated water. Equations 6-11 of ref. [1].
  * `Tk` Temperature in K
  * Output: J/kg
 
+# Examples
+```julia-repla
+julia> Psychro.enthalpywater(300)
+112546.6761735579
+```
 """
 function enthalpywater(Tk)
     β₀ = Tk * volumewater(273.16) * dPws_l(273.16)
@@ -98,6 +126,14 @@ Specific enthalpy of saturated water in condensed phase (ice or water).
  * `Tk` Temperature in K
  * Output: J/kg
 
+# Examples
+```julia-repla
+julia> Psychro.enthalpywi(273.14999)
+-333429.80736372294
+
+julia> Psychro.enthalpywi(273.15)
+-43.03425958889656
+```
 """
 function enthalpywi(Tk)
     if Tk >= 273.15

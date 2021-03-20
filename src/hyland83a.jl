@@ -9,13 +9,20 @@
 
 
 """
-    ```Bm(Tk,xv)```
+    Bm(Tk,xv)
 
-First virial coefficient Bm of moist air of saturated vapor eq 2 [2]
+First virial coefficient Bm of moist air of saturated vapor eq 2 [2].
 
  * `Tk` Temperature in K
  * `xv` Molar fraction of water vapor in the moist air
  * Output: Bm in m^3/mol
+
+
+# Examples
+```julia-repl
+julia> Psychro.Bm(300, 0.01)
+-7.8025792841398e-6
+```
 """
 function Bm(Tk, xv)
     xa = 1 - xv
@@ -23,13 +30,19 @@ function Bm(Tk, xv)
 end
 
 """
-    ```dBm(Tk,xv)```
+    dBm(Tk,xv)
 
-Derivative of first virial coefficient Bm of moist air of saturated vapor eq 2 [2]
+Derivative of first virial coefficient [`Bm`](@ref) of moist air of saturated vapor eq 2 [2].
 
  * `Tk` Temperature in K
  * `xv` Molar fraction of water vapor in the moist air
  * Output: dBm/dT in m^3/mol/K
+
+# Examples
+```julia-repl
+julia> Psychro.dBm(300, 0.01)
+1.9873214515110309e-7
+```
 """
 function dBm(Tk, xv)
     xa = 1.0 - xv
@@ -38,13 +51,19 @@ end
 
 
 """
-    ```Cm(Tk,xv)```
+    Cm(Tk,xv)
 
-Second virial coefficient Cm of moist air of saturated vapor eq 3 [2]
+Second virial coefficient Cm of moist air of saturated vapor eq 3 [2] (see [`Psychro`](@ref)).
 
  * `Tk` Temperature in K
  * `xv` Molar fraction of water vapor in the moist air
  * Output: Cm in m^6/mol^2
+
+# Examples
+```julia-repl
+julia> Psychro.Cm(300, 0.01)
+1.2734495937889647e-9
+```
 """
 function Cm(Tk, xv)
     xa = 1-xv
@@ -52,13 +71,19 @@ function Cm(Tk, xv)
 end
 
 """
-    ```dCm(Tk,xv)```
+    dCm(Tk,xv)
 
-Derivative of second virial coefficient Cm of moist air of saturated vapor eq 3 [2]
+Derivative of second virial coefficient [`Cm`](@ref) of moist air of saturated vapor eq 3 [2] (see [`Psychro`](@ref)).
 
  * `Tk` Temperature in K
  * `xv` Molar fraction of water vapor in the moist air
  * Output: dCm/dT in m^6/mol^2/K
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 function dCm(Tk, xv)
     xa = 1-xv
@@ -67,59 +92,84 @@ end
 
 
 """
-    ```Baa(Tk)```
+    Baa(Tk)
 
-Virial coefficient Bₐₐ of dry air eq 10 [2]
+ Bₐₐ of dry air eq 10 [2] (see the docs for [`Psychro`](@ref)).
 
  * `Tk` Temperature in K
  * Output: Bₐₐ in m^3/mol
 
+# Examples
+```julia-repl
+julia> Psychro.Baa(300)
+-7.259614814814822e-6
+```
 """
 Baa(Tk) = 0.349568e-4 + (1.0/Tk)*(-0.668772e-2 + (1.0/Tk) * (-0.210141e1 + 0.924746e2/Tk))
 
 """
-    ```dBaa(Tk)```
+    dBaa(Tk)
 
-Derivative of Bₐₐ(T). Calculated from equation 10 [2].
+Derivative of Bₐₐ(T), function [`Baa`](@ref). Calculated from equation 10 [2].
 
  * `Tk` Temperature in K
  * Output: Bₐₐ in m^3/mol/K
 
+# Examples
+```julia-repl
+julia> Psychro.dBaa(300)
+1.9571814814814817e-7
+```
 """
 dBaa(Tk) = 1.0/(Tk*Tk) * (0.668772e-2 + (1.0/Tk)*(0.420282e1 - 2.774238e2/Tk))
 
 """
-    ```Caa(Tk)```
+    Caaa(Tk)
 
 Second virial coefficient Cₐₐₐ of dry air eq 11 [2].
 
  * `Tk` Temperature in K
  * Output: Bₐₐ in m^6/mol^2
 
+# Examples
+```julia-repl
+julia> Psychro.Caaa(300)
+1.326141111111111e-9
+```
 """
 Caaa(Tk) = (0.125975e-8 + 1.0/Tk * (-0.190905e-6 + 0.632467e-4/Tk))
 
 """
-    ```dCaa(Tk)```
+    dCaaa(Tk)
 
-Derivative of second virial coefficient Cₐₐₐ of dry air eq 11 [2].
+Derivative of second virial coefficient Cₐₐₐ (function [`Caaa`](@ref)) of dry air eq 11 [2].
 
  * `Tk` Temperature in K
  * Output: Bₐₐ in m^6/mol^2/K
 
+# Examples
+```julia-repl
+julia> Psychro.dCaaa(300)
+-2.5637740740740747e-12
+```
 """
 dCaaa(Tk) = 1.0/(Tk*Tk) * (0.190905e-6 - 1.264934e-4/Tk) 
 
 
 """
-    ```Zair(Tk, P)```
+    Zair(Tk, P)
 
 Compressibility factor of dry air.
 
  * `Tk` Temperature in K
  * `P` Pressure in Pa
-
  * Output: Z (nondimensional)
+
+# Examples
+```julia-repl
+julia> Psychro.Zair(300, 1e6)
+0.9972959755940749
+```
 """
 function Zair(Tk, P)
     vm0 = R*Tk/P
@@ -129,7 +179,7 @@ function Zair(Tk, P)
 end
 
 """
-    molarvolumeair(Tk)
+    molarvolumeair(Tk, P)
 
 Molar volume of dry air. Equation 12 of reference [1].
 This function requires iteration to compute the volume.
@@ -137,6 +187,12 @@ This function requires iteration to compute the volume.
  * `Tk` Temperature in K
  * `P` Pressure in Pa
  * Output: molar volume in m^3/mol
+
+# Examples
+```julia-repl
+julia> Psychro.molarvolumeair(300, 1e6)
+0.002487593203694677
+```
 """
 function molarvolumeair(Tk, P)
 
@@ -150,13 +206,19 @@ function molarvolumeair(Tk, P)
 end
 
 """
-    volumeair
+    volumeair(Tk, P)
 
 Specific volume of dry air. Uses `molarvolumeair`.
 
  * `Tk` Temperature in K
  * `P` Pressure in Pa
  * Output: molar volume in m^3/kg
+
+# Examples
+```julia-repl
+julia> Psychro.volumeair(300, 1e6)
+0.08588717536536251
+```
 """
 volumeair(Tk, P) = molarvolumeair(Tk, P) / Ma
 
@@ -169,6 +231,15 @@ Molar enthalpy of dry air. Equation 13 of reference [2]
  * `Tk` Temperature in K
  * `P` Pressure in Pa
  * Output: m^3/mol
+
+# Examples
+```julia-repl
+julia> Psychro.molarenthalpyair(300, 1e6)
+723.6723547535232
+
+julia> Psychro.molarenthalpyair(300, 1e5)
+782.5441847700663
+```
 """
 function molarenthalpyair(Tk, P)
     h1 = -0.79078691e4 + Tk*(0.28709015e2 +
@@ -191,8 +262,16 @@ Specific enthalpy of dry air. Equation 13 of reference [2]
 
  * `Tk` Temperature in K
  * `P` Pressure in Pa
-
  * Output: m^3/kg
+
+# Examples
+```julia-repl
+julia> Psychro.enthalpyair(300, 1e5)
+27018.28800973868
+
+julia> Psychro.enthalpyair(300, 1e6)
+24985.666606367435
+```
 """
 function enthalpyair(Tk, P)
     return molarenthalpyair(Tk, P) / Ma
@@ -213,6 +292,12 @@ Specific entropy of dry air. Equation 14 of reference [2]
  * `Tk` Temperature in K
  * `P` Pressure in Pa
  * Output: m^3/(kg.K)
+
+# Examples
+```julia-repl
+julia> Psychro.molarentropyair(300, 1e6)
+-16.47796807767681
+```
 """
 function molarentropyair(Tk, P)
 
@@ -234,6 +319,12 @@ Specific entropy of dry air. Equation 14 of reference [2]
  * `Tk` Temperature in K
  * `P` Pressure in Pa
  * Output: m^3/(kg.K)
+
+# Examples
+```julia-repl
+julia> Psychro.entropyair(300, 1e6)
+-568.9218525964338
+```
 """
 function entropyair(Tk, P)
 
@@ -242,45 +333,69 @@ end
 
 
 """
-    ```Baw(Tk)```
+    Baw(Tk)
 
 Cross virial coefficient Baw of saturated vapor eq 15 [2]
 
  * `Tk` Temperature in K
  * Output: Baw in m^3/mol
+
+# Examples
+```julia-repl
+julia> Psychro.Baw(300)
+-2.8798043617283956e-5
+```
 """
 Baw(Tk) = 0.32366097e-4 + 1.0/Tk * (-0.141138e-1 + 1.0/Tk * (-0.1244535e1 - 0.2348789e4/(Tk*Tk)))
 
 
 """
-    ```Baw(Tk)```
+    Baw(Tk)
 
 Derivative of cross virial coefficient Bww of saturated vapor eq 15 [2]
 
  * `Tk` Temperature in K
  * Output: dBaw/dT in m^3/mol/K
+
+# Examples
+```julia-repl
+julia> Psychro.dBaw(300)
+2.5287409744855964e-7
+```
 """
 dBaw(Tk) = 1.0/(Tk*Tk) * (0.141138e-1 + 1.0/Tk * (0.248907e1 + 0.93951568e4 /(Tk*Tk)))
 
 """
-    ```Caaw(Tk)```
+    Caaw(Tk)
 
 Cross virial coefficient Caaw of saturated vapor eq 16 [2]
 
  * `Tk` Temperature in K
  * Output: Caaw in m^6/mol^2
+
+# Examples
+```julia-repl
+julia> Psychro.Caaw(300)
+8.019777407407409e-10
+```
 """
 Caaw(Tk) = 0.482737e-9 + 1.0/Tk * (0.105678e-6 + 1.0/Tk *
                                    (-0.656394e-4 + 1.0/Tk*
                                     (0.294442e-1 - 0.319317e1/Tk)))
 
 """
-    ```dCaaw(Tk)```
+    dCaaw(Tk)
 
 Derivative of cross virial coefficient dCaaw/dT of saturated vapor eq 16 [2]
 
  * `Tk` Temperature in K
  * Output: dCaaw/dT in m^6/mol^2/K
+
+# Examples
+```julia-repl
+julia> Psychro.dCaaw(300)
+-1.9610345679012353e-12
+```
 """
 dCaaw(Tk) = 1.0/(Tk*Tk) * (-0.105678e-6 + 1.0/Tk*(1.312788e-4 + 1.0/Tk*(-0.883326e-1 + 1.277268e1/Tk)))
 
@@ -292,43 +407,61 @@ Cross virial coefficient Caaw of saturated vapor eq 17 [2]
 
  * `Tk` Temperature in K
  * Output: Caww in m^6/mol^2
+
+# Examples
+```julia-repl
+julia> Psychro.Caww(300)
+-1.1555278368039328e-7
+```
 """
 Caww(Tk) = -1e-6 * exp( -0.10728876e2 + 1.0/Tk * (0.347802e4 + 1.0/Tk*(-0.383383e6 +  0.33406e8/Tk)))
 
 """
-    ```dCaww(Tk)```
+    dCaww(Tk)
 
 Derivative of cross virial coefficient dCaaw/dT of saturated vapor eq 17 [2]
 
  * `Tk` Temperature in K
  * Output: dCaww/dT in m^6/mol^2/K
+
+# Examples
+```julia-repl
+julia> Psychro.dCaww(300)
+2.61363277754134e-9
+```
 """
 dCaww(Tk) = 1.0/(Tk*Tk) * (-0.347802e4 + 1.0/Tk * (2*0.383383e6 - 3*0.33406e8/Tk)) * Caww(Tk)
 
 
 """
+    efactor2(Tk,P)
 
-    ```e_factor(Tk,P)```
-
-Enhancement factor of moist air. 
+Enhancement factor of moist air. Another calculation procedure
 Uses an iterative procedure to calculate the Enhancement factor defined 
 in equation 18 [2]
 
-
+ * `Tk` Temperature in K
+ * `P` Pressure in Pa
+ * Output: enhancement factor
+ 
+# Examples
+```julia-repl
+julia> Psychro.efactor2(300, 1e5)
+1.0042133426083673
+```
 """
 function efactor2(Tk, P, EPS=1e-8, MAXITER=200)
     f = 1.0
     err = 0.0
     for i = 1:MAXITER
         xas = (P-f*Pws(Tk)) / P
-        fnovo = exp(lnf(Tk,P,xas))
+        fnovo = exp(lnf2(Tk,P,xas))
         err = abs(fnovo-f)
         
         if err < EPS
             if fnovo < 1
                 fnovo = 1.0
             end
-            println(i)
             return fnovo
         end
         
@@ -341,6 +474,23 @@ function efactor2(Tk, P, EPS=1e-8, MAXITER=200)
     throw(ConvergenceError("Enhancement factor calculation did not converge!", fnovo, MAXITER, err))
 end
 
+"""
+    efactor(Tk,P)
+
+Enhancement factor of moist air.
+Uses an iterative procedure to calculate the Enhancement factor defined 
+in equation 18 [2]
+
+ * `Tk` Temperature in K
+ * `P` Pressure in Pa
+ * Output: enhancement factor
+ 
+# Examples
+```julia-repl
+julia> Psychro.efactor(300, 1e5)
+1.0042133426087643
+```
+"""
 function efactor(Tk, P, relax=1.0, EPS=1e-8, MAXITER=200)
 
     if Tk < 273.16
@@ -391,7 +541,11 @@ function efactor(Tk, P, relax=1.0, EPS=1e-8, MAXITER=200)
 end
 
 
+"""
+    lnf(f, P, p, k, κ, vc, RT, baa, baw, bww, caaa, caaw, caww, cwww)
 
+Auxiliar function used in [`efactor`](@ref). 
+"""
 function lnf(f, P, p, k, κ, vc, RT, baa, baw, bww, caaa, caaw, caww, cwww)
     P2 = P*P
     p2 = p*p
@@ -414,9 +568,11 @@ function lnf(f, P, p, k, κ, vc, RT, baa, baw, bww, caaa, caaw, caww, cwww)
 end
 
 """
-    ```lnf(Tk, P, xas)```
+    lnf(Tk, P, xas)
 
-Auxiliary function used to calculate the enhancement factor.
+Auxiliary function used to calculate the enhancement factor 
+implemented in function [`efactor2`](@ref).
+
 Actually, this function implements the RHS of eq. 18 of [2].
 """
 function lnf2(Tk, P, xas)
@@ -469,6 +625,11 @@ Molar fraction of water vapor in saturated moist air
  * `P` Pressure in Pa
  * Output: molar fraction
 
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 molarfracmoist_sat(Tk, P,EPS=1e-8, MAXITER=200) = efactor(Tk, P,EPS, MAXITER) * Pws(Tk) / P
 
@@ -481,6 +642,12 @@ Virial coefficient Bww of saturated vapor eq 19 [2]
 
  * `Tk` Temperature in K
  * Output: Bww in m^3/mol
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 Bww(Tk) = R * Tk * Blin(Tk)
 
@@ -491,6 +658,12 @@ Derivative of virial coefficient dBww/dT of saturated vapor eq 19 [2]
 
  * `Tk` Temperature in K
  * Output: dBww/dT in m^3/mol/K
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 dBww(Tk) = R * (Tk * dBlin(Tk) + Blin(Tk))
 
@@ -502,6 +675,12 @@ Second virial coefficient Cwww of saturated vapor eq 20 [2]
 
  * `Tk` Temperature in K
  * Output: Cwww in m^3/mol
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 Cwww(Tk) = R*R*Tk*Tk * (Clin(Tk) + Blin(Tk)^2)
 
@@ -525,6 +704,12 @@ Range of applicability 0°C - 150°C but can be extended up to 200°C
 More details in reference [4].
  * `Tk` Temperature in K
  * Output: κ in 1/Pa
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 function kappa_l(Tk)
     Tc = Tk - 273.15
@@ -554,6 +739,12 @@ Isothermal compressibility of ice. Equation 22, ref. [2].
 
  * `Tk` Temperature in K
  * Output: κ in 1/Pa
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 kappa_s(Tk) = (8.875 + 0.0165*Tk)*1e-11
 
@@ -575,6 +766,12 @@ Valid for temperatures between 273.15 K and 500 K
 
  * `Tk` Temperature in K
  * Output: k in atm/mol * 10^(-4)
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 function henryk_O2(Tk)
 
@@ -601,6 +798,12 @@ Valid for temperatures between 273.15 K and 500 K
 
  * `Tk` Temperature in K
  * Output: k in atm/mol * 10^(-4)
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 function henryk_N2(Tk)
 
@@ -627,6 +830,12 @@ Valid for temperatures between 273.15 K and 500 K
 
  * `Tk` Temperature in K
  * Output: k in atm/mol fract * 10^(-4)
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 function henryk(Tk)
 
@@ -653,6 +862,12 @@ Assumes a real gas.
  * `P` Pressure in Pa
  * `xv`  Molar fraction of water vapor
  * Output: molar volume in m^3/mol
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 molarvolumemoist(Tk, P, xv) = Zmoist(Tk, P, xv) * R * Tk / P
 
@@ -667,6 +882,12 @@ by a mixture of dry air and water vapor per kg of dry air.
  * `P` Pressure in Pa
  * `xv`  Molar fraction of water vapor
  * Output: molar volume in m^3/kg of dry air.
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 volumemoist(Tk, P, xv) = molarvolumemoist(Tk,P,xv) / (Ma*(1-xv))
 
@@ -680,6 +901,12 @@ Compressibility factor of moist air.
  * `P` Pressure in Pa
  * `xv` molar fraction of water vapor.
  * Output: Z (nondimensional)
+
+# Examples
+```julia-repl
+julia> Psychro.dCm(300, 0.01)
+-1.680079338778261e-12
+```
 """
 function Zmoist(Tk, P, xv)
 
