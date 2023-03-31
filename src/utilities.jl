@@ -65,7 +65,7 @@ function calcz(b0, c0)
     #z3 = z2 + b₀z + c0
     #z3-z2- b₀z- c0
     poly =(-c0,-b0,-1.0,1.0)
-    res =  cardan(poly)
+    res = solve_restricted_cubic(poly)
     
     posibleres = filter(i->abs(imag(i)) < sqrt(eps(b0)),res)
     realres = map(real,posibleres)
@@ -77,7 +77,15 @@ function calcz(b0, c0)
 end
 
 
-function cardan(poly::NTuple{4,T}) where {T<:AbstractFloat}
+"""
+    solve_restricted_cubic(poly::NTuple{4,T}) where {T<:AbstractFloat}
+
+Returns the real solutions to the cubic represented by poly.
+
+The argument poly must be normalized: the x^3 coefficients (poly[4]) must be 1.
+"""
+
+function solve_restricted_cubic(poly::NTuple{4,T}) where {T<:AbstractFloat}
     # Cubic equation solver for complex polynomial (degree=3)
     # http://en.wikipedia.org/wiki/Cubic_function   Lagrange's method
     third = 0.3333333333333333 #speeds up the calculation
