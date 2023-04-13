@@ -65,7 +65,7 @@ function calcz(b0, c0)
     #z3 = z2 + b₀z + c0
     #z3-z2- b₀z- c0
     poly =(-c0,-b0,-1.0,1.0)
-    res = solve_restricted_cubic(poly)
+    res = solve_restricted_cubic(-b0, -c0)
     
     posibleres = filter(i->abs(imag(i)) < sqrt(eps(b0)),res)
     realres = map(real,posibleres)
@@ -78,27 +78,26 @@ end
 
 
 """
-    solve_restricted_cubic(poly::NTuple{4,T}) where {T<:AbstractFloat}
+    solve_restricted_cubic(b<:AbstractFloat, c<:AbstractFloat)
 
-Returns the real solutions to the cubic represented by poly.
-
-The argument poly must be normalized: the x^3 coefficients (poly[4]) must be 1.
+Returns the real solutions to the cubic equation 0 = x^3 - x^2 + bx + c
 """
 
-function solve_restricted_cubic(poly::NTuple{4,T}) where {T<:AbstractFloat}
+function solve_restricted_cubic(b::BT, c::CT) where {BT<:Real, CT<:Real}
     # Cubic equation solver for complex polynomial (degree=3)
     # http://en.wikipedia.org/wiki/Cubic_function   Lagrange's method
     third = 0.3333333333333333 #speeds up the calculation
-    a1  =  T(1.0) #in the original cardan, there is a divition here (1/a[4]). in this particular case its not necessary
-    E1  = -complex(poly[3])*a1
-    E2  =  complex(poly[2])*a1
-    E3  = -complex(poly[1])*a1
+    a1  =  1.0 # in the original cardan, there is a division here (1/a[4]),
+               # however we only handle the x^3 term being 1.0
+    E1  =  a1  # And the x^2 term is -1
+    E2  =  b
+    E3  = -c
     s0  =  E1
     E12 =  E1*E1
     A   =  2*E1*E12 - 9*E1*E2 + 27*E3 # = s1^3 + s2^3
     B   =  E12 - 3*E2                 # = s1 s2
     # quadratic equation: z^2 - Az + B^3=0  where roots are equal to s1^3 and s2^3
-    Δ = sqrt(A*A - 4*B*B*B)
+    Δ = sqrt(complex(A*A - 4*B*B*B))
     if real(conj(A)*Δ)>=0 # scalar product to decide the sign yielding bigger magnitude
         s1 = exp(log(0.5 * (A + Δ)) * third)
     else
@@ -109,7 +108,7 @@ function solve_restricted_cubic(poly::NTuple{4,T}) where {T<:AbstractFloat}
     else
         s2 = B / s1
     end
-    zeta1 = complex(-0.5, sqrt(T(3.0))*0.5)
+    zeta1 = complex(-0.5, sqrt(3.0)*0.5)
     zeta2 = conj(zeta1)
     return third*(s0 + s1 + s2), third*(s0 + s1*zeta2 + s2*zeta1), third*(s0 + s1*zeta1 + s2*zeta2)
 end
