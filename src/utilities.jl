@@ -48,7 +48,7 @@ end
 
 
 """
-    calcz(vm, b0, c0, [EPS, [MAXITER, [relax]]])
+    calcz(b0, c0, [EPS, [MAXITER, [relax]]])
 
 Calculates the compressibility factor using a virial equation:
 
@@ -58,7 +58,7 @@ The algorithm transforms the values to a cubic polynomial and solves the roots u
 cardan's method.
 
  * `b0` b₀ parameter of the virial equation
- * `c0` c₀ parameter of the virial equation
+ * `c0` c₀/vₘ² parameter of the virial equation
 """
 function calcz(b0, c0)
     #transformation:
